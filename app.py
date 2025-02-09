@@ -189,8 +189,5 @@ def open_browser():
     webbrowser.open("http://127.0.0.1:5000/")
 
 if __name__ == "__main__":
-    # Optional: Start a thread to open the browser automatically
-    threading.Timer(1.0, open_browser).start()
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
 
-    # Run the Flask app on port 5000
-    app.run(port=5000)
