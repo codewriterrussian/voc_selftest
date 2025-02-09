@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Quiz Answer</title>
+</head>
+<body style="background-color: {{ style.bg_color }}; color: {{ style.text_color }}; font-size: {{ style.font_size }}px;">
+
+    <h1>Quiz - Answer</h1>
+
+    <!-- Show the question and selected answer -->
+    <p><strong>Question:</strong> {{ question }}</p>
+
+    <p><strong>Your Answer:</strong> 
+       {{ selected_letter }}) 
+       {% if selected_letter in options %} 
+         {{ options[selected_letter] }}
+       {% endif %}
+    </p>
+
+    <!-- Show the correct answer -->
+    <p><strong>Correct Answer:</strong> 
+       {{ correct_answer }}) 
+       {% if correct_answer in options %} 
+         {{ options[correct_answer] }}
+       {% endif %}
+    </p>
+
+    <!-- Explanation if provided in JSON -->
+    {% if explanation %}
+        <p><strong>Explanation:</strong> {{ explanation }}</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Next Question button -->
+    <form id="next_question_form" action="{{ url_for('next_question') }}" method="POST" style="display:inline;">
+        <button type="submit">Next Question</button>
+    </form>
+
+    <!-- Delete Question button -->
+    <form id="delete_question_form" action="{{ url_for('delete_question') }}" method="POST" style="display:inline;">
+        <button type="submit">Delete Question</button>
+    </form>
+
+    <!-- Back to Main Menu button -->
+    <form action="{{ url_for('back_to_main') }}" method="POST" style="display:inline;">
+        <button type="submit">Back to Main Menu</button>
+    </form>
+
+    <!-- JavaScript for handling Space keypress to advance (and optionally a shortcut to delete) -->
+    <script>
+    document.addEventListener("keydown", function(e) {
+        // e.code == 'Space' means the spacebar
+        if (e.code === "Space") {
+            e.preventDefault();  // Avoid default scrolling
+            document.getElementById("next_question_form").submit();
+        }
+        
+        // OPTIONAL: If you want a keyboard shortcut to delete the question, e.g. pressing "d"
+        // if (e.key.toLowerCase() === 'd') {
+        //     e.preventDefault();
+        //     document.getElementById("delete_question_form").submit();
+        // }
+    });
+    </script>
+
+</body>
+</html>

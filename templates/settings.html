@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Quiz Settings</title>
+</head>
+<body style="background-color: {{ style.bg_color }}; color: {{ style.text_color }}; font-size: {{ style.font_size }}px;">
+
+    <h1>Settings</h1>
+    <form action="{{ url_for('settings') }}" method="POST">
+        
+        <label for="bg_color">Background Color:</label>
+        <input type="color" id="bg_color" name="bg_color" value="{{ style.bg_color }}">
+        <br><br>
+
+        <label for="text_color">Text Color:</label>
+        <input type="color" id="text_color" name="text_color" value="{{ style.text_color }}">
+        <br><br>
+
+        <label for="font_size">Font Size:</label>
+        <input type="number" id="font_size" name="font_size" value="{{ style.font_size }}">
+        <br><br>
+
+        <button type="submit">Save Settings</button>
+    </form>
+
+    <hr>
+    <a href="{{ url_for('index') }}">Back to Main Menu</a>
+
+</body>
+</html>

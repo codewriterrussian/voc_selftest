@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Quiz Finished</title>
+</head>
+<body style="background-color: {{ style.bg_color }}; color: {{ style.text_color }}; font-size: {{ style.font_size }}px;">
+
+    <h1>All Questions Answered!</h1>
+    <p>You have completed the quiz in this category.</p>
+
+    <form action="{{ url_for('back_to_main') }}" method="POST">
+        <button type="submit">Back to Main Menu</button>
+    </form>
+
+</body>
+</html>
