@@ -1,0 +1,85 @@
+{
+    "categories": {
+        "Russian": [
+            {
+                "question": "俄語中的 \"Еда\" 代表什麼？",
+                "options": {
+                    "A": "水",
+                    "B": "食物",
+                    "C": "請",
+                    "D": "對不起"
+                },
+                "correct_answer": "B",
+                "explanation": "✅ **B) Еда** 表示 **\"食物\"**。\n\n其他選項：\n- **A) Вода**（水）\n- **C) Пожалуйста**（請）\n- **D) Извините**（對不起）"
+            },
+            {
+                "question": "哪個詞表示「不」？",
+                "options": {
+                    "A": "Да",
+                    "B": "Где",
+                    "C": "Нет",
+                    "D": "Спасибо"
+                },
+                "correct_answer": "C",
+                "explanation": "✅ **C) Нет**（不）。\n\n其他選項：\n- **Да**（是）\n- **Где**（哪裡？）\n- **Спасибо**（謝謝）"
+            },
+            {
+                "question": "哪一個選項是俄語的「再見」？",
+                "options": {
+                    "A": "Спасибо",
+                    "B": "Извините",
+                    "C": "До свидания",
+                    "D": "Где"
+                },
+                "correct_answer": "C",
+                "explanation": "✅ **C) До свидания** 表示 **\"再見\"**。\n\n其他選項：\n- **Спасибо**（謝謝）\n- **Извините**（對不起）\n- **Где**（哪裡）"
+            },
+            {
+                "question": "哪個選項是俄語的 \"是\"？",
+                "options": {
+                    "A": "Нет",
+                    "B": "Да",
+                    "C": "Где",
+                    "D": "Спасибо"
+                },
+                "correct_answer": "B",
+                "explanation": "✅ **B) Да**（是/對）。\n\n其他選項：\n- **Нет**（不）\n- **Где**（哪裡？）\n- **Спасибо**（謝謝）"
+            },
+            {
+                "question": "在俄語中，如何說「請」這個詞？",
+                "options": {
+                    "A": "Привет",
+                    "B": "Пожалуйста",
+                    "C": "До свидания",
+                    "D": "Извините"
+                },
+                "correct_answer": "B",
+                "explanation": "✅ **B) Пожалуйста** 的意思是 **\"請\" 或 \"不客氣\"**。\n\n其他選項：\n- **Привет**（你好）\n- **До свидания**（再見）\n- **Извините**（對不起）"
+            },
+            {
+                "question": "當你想道歉時，你應該說哪個詞？",
+                "options": {
+                    "A": "Спасибо",
+                    "B": "Привет",
+                    "C": "Извините",
+                    "D": "Пожалуйста"
+                },
+                "correct_answer": "C",
+                "explanation": "✅ **C) Извините**（對不起）。\n\n其他選項：\n- **Спасибо**（謝謝）\n- **Привет**（你好）\n- **Пожалуйста**（請/不客氣）"
+            }
+        ],
+        "English": [
+            {
+                "question": "Which of the following words means 'Hello' in English?",
+                "options": {
+                    "A": "Goodbye",
+                    "B": "Please",
+                    "C": "Hello",
+                    "D": "Sorry"
+                },
+                "correct_answer": "C",
+                "explanation": "✅ **C) Hello** is the common English greeting.\n\n- **A) Goodbye** means farewell.\n- **B) Please** is used for politeness.\n- **D) Sorry** is used for apologies."
+            }
+        ]
+    }
+}

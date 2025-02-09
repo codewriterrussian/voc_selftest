@@ -3,14 +3,16 @@ import os
 import json
 import random
 import webbrowser
-import threading
+import requests
 
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 
 # -----------------------------------------------------------------------------
 # Global Constants
 # -----------------------------------------------------------------------------
-JSON_FILE = "questions.json"
+JSONBIN_API_KEY = "$2a$10$emdSh/thUg5xTvyY9z89UOy.BurV3ykvVjjUjodpvnJe2Xqc/WAAm"  # Replace with your actual API key
+BIN_ID = "67a87edbacd3cb34a8db4700"  # Replace with your actual JSONBin Bin ID
+JSONBIN_URL = f"https://api.jsonbin.io/v3/b/{BIN_ID}"
 
 # -----------------------------------------------------------------------------
 # Flask App Setup
@@ -18,14 +20,36 @@ JSON_FILE = "questions.json"
 app = Flask(__name__)
 app.secret_key = "some_secret_key_for_session"  # Needed for sessions in Flask
 
-# Load data once at startup
-if not os.path.exists(JSON_FILE):
-    with open(JSON_FILE, "w", encoding="utf-8") as f:
-        json.dump({"categories": {}}, f, indent=4, ensure_ascii=False)
 
-with open(JSON_FILE, "r", encoding="utf-8") as f:
-    data = json.load(f)
+# -----------------------------------------------------------------------------
+# Helper Functions
+# -----------------------------------------------------------------------------
+def fetch_json_from_bin():
+    """Fetch JSON data from JSONBin.io."""
+    headers = {"X-Master-Key": JSONBIN_API_KEY}
+    response = requests.get(JSONBIN_URL, headers=headers)
 
+    if response.status_code == 200:
+        return response.json().get("record", {"categories": {}})
+    else:
+        print(f"Error fetching JSON: {response.text}")
+        return {"categories": {}}
+
+
+def write_json_to_bin(data_dict):
+    """Update the JSON data in JSONBin.io."""
+    headers = {
+        "X-Master-Key": JSONBIN_API_KEY,
+        "Content-Type": "application/json",
+    }
+    response = requests.put(JSONBIN_URL, headers=headers, data=json.dumps(data_dict))
+
+    if response.status_code != 200:
+        print(f"Error updating JSON: {response.text}")
+
+
+# Load JSON from API at startup
+data = fetch_json_from_bin()
 categories = data.get("categories", {})
 
 # Default style
@@ -34,14 +58,6 @@ DEFAULT_STYLE = {
     "text_color": "#ffffff",
     "font_size": 18
 }
-
-# -----------------------------------------------------------------------------
-# Helper Functions
-# -----------------------------------------------------------------------------
-def write_json_to_file(data_dict):
-    """Writes the in-memory data back to the JSON file."""
-    with open(JSON_FILE, "w", encoding="utf-8") as f:
-        json.dump(data_dict, f, indent=4, ensure_ascii=False)
 
 
 def get_style():
@@ -151,7 +167,7 @@ def delete_question():
         questions.pop(idx)
 
     data["categories"][quiz_data["category"]] = questions
-    write_json_to_file(data)
+    write_json_to_bin(data)  # Update JSONBin.io
 
     save_current_quiz(quiz_data)
     return redirect(url_for("quiz"))
@@ -182,7 +198,7 @@ def settings():
 
 
 # -----------------------------------------------------------------------------
-# Main Entry Point (without PyQt6)
+# Main Entry Point
 # -----------------------------------------------------------------------------
 def open_browser():
     """Open the default web browser at the specified URL."""
@@ -190,4 +206,3 @@ def open_browser():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
