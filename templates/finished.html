@@ -1,10 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Finished</title>
+    <style>
+        body {
+            background-color: {{ style.bg_color }};
+            color: {{ style.text_color }};
+            font-size: {{ style.font_size }}px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1.2em;
+        }
+        form {
+            margin-top: 20px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 80%;
+            max-width: 300px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                font-size: 16px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            p {
+                font-size: 1em;
+            }
+            button {
+                font-size: 1.1em;
+                padding: 12px 18px;
+            }
+        }
+    </style>
 </head>
-<body style="background-color: {{ style.bg_color }}; color: {{ style.text_color }}; font-size: {{ style.font_size }}px;">
+<body>
 
     <h1>All Questions Answered!</h1>
     <p>You have completed the quiz in this category.</p>

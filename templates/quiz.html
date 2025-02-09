@@ -1,65 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Question</title>
+    <style>
+        body {
+            background-color: {{ style.bg_color }};
+            color: {{ style.text_color }};
+            font-size: {{ style.font_size }}px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        strong {
+            font-weight: bold;
+        }
+        hr {
+            width: 90%;
+            margin: 25px auto;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .option-container {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            max-width: 400px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        label {
+            font-size: 1.2em;
+            cursor: pointer;
+            flex-grow: 1;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 80%;
+            max-width: 300px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                font-size: 16px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            p {
+                font-size: 1.1em;
+            }
+            label {
+                font-size: 1.1em;
+            }
+            button {
+                font-size: 1.1em;
+                padding: 12px 18px;
+            }
+        }
+    </style>
 </head>
-<body style="background-color: {{ style.bg_color }}; color: {{ style.text_color }}; font-size: {{ style.font_size }}px;">
+<body>
 
     <h1>Quiz - Question</h1>
 
     <!-- Quiz Form -->
     <form method="POST" id="quiz_form">
         <p><strong>{{ question }}</strong></p>
-        
-        <!-- Loop through each option (A, B, C, D) -->
+
+        <!-- Loop through each option -->
         {% for letter, option_text in options.items() %}
-            <div>
+            <div class="option-container" onclick="selectOption('{{ letter }}')">
                 <input type="radio" id="opt_{{ letter }}" name="selected_letter" value="{{ letter }}">
                 <label for="opt_{{ letter }}">{{ letter }}) {{ option_text }}</label>
             </div>
         {% endfor %}
-        
+
         <button type="submit">Submit Answer</button>
     </form>
 
     <hr>
-    <!-- Return to the main menu if desired -->
+
+    <!-- Return to the main menu -->
     <form action="{{ url_for('back_to_main') }}" method="POST">
         <button type="submit">Back to Main Menu</button>
     </form>
 
-    <!-- JavaScript for handling keypresses:
-         - '1', '2', '3', '4' to select an option (A, B, C, D)
-         - Enter OR Space to submit the form
-    -->
+    <!-- JavaScript for handling keyboard shortcuts and clickable selections -->
     <script>
+    function selectOption(letter) {
+        document.getElementById("opt_" + letter).checked = true;
+    }
+
     document.addEventListener("keydown", function(e) {
         switch (e.key) {
             case '1':
-                // Select radio button "A"
-                const optA = document.getElementById("opt_A");
-                if (optA) optA.checked = true;
+                document.getElementById("opt_A")?.click();
                 break;
             case '2':
-                // Select radio button "B"
-                const optB = document.getElementById("opt_B");
-                if (optB) optB.checked = true;
+                document.getElementById("opt_B")?.click();
                 break;
             case '3':
-                // Select radio button "C"
-                const optC = document.getElementById("opt_C");
-                if (optC) optC.checked = true;
+                document.getElementById("opt_C")?.click();
                 break;
             case '4':
-                // Select radio button "D"
-                const optD = document.getElementById("opt_D");
-                if (optD) optD.checked = true;
+                document.getElementById("opt_D")?.click();
                 break;
             case 'Enter':
             case ' ':
-                // Pressing Enter or Space will submit the answer
-                e.preventDefault();  // Prevent default browser behavior (scroll, etc.)
+                e.preventDefault();  // Prevent page scrolling
                 document.getElementById("quiz_form").submit();
                 break;
         }

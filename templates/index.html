@@ -1,10 +1,95 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Home</title>
+    <style>
+        body {
+            background-color: {{ style.bg_color }};
+            color: {{ style.text_color }};
+            font-size: {{ style.font_size }}px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        label {
+            font-size: 1.2em;
+        }
+        select {
+            width: 80%;
+            max-width: 300px;
+            padding: 10px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 80%;
+            max-width: 300px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        hr {
+            width: 90%;
+            margin: 30px auto;
+        }
+        a {
+            font-size: 1.2em;
+            color: #007BFF;
+            text-decoration: none;
+            display: block;
+            margin-top: 15px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                font-size: 16px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            label {
+                font-size: 1em;
+            }
+            select {
+                font-size: 1em;
+                padding: 8px;
+            }
+            button {
+                font-size: 1.1em;
+                padding: 12px 18px;
+            }
+            a {
+                font-size: 1.1em;
+            }
+        }
+    </style>
 </head>
-<body style="background-color: {{ style.bg_color }}; color: {{ style.text_color }}; font-size: {{ style.font_size }}px;">
+<body>
 
     <h1>Welcome to the Quiz!</h1>
 

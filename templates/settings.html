@@ -1,25 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Settings</title>
+    <style>
+        body {
+            background-color: {{ style.bg_color }};
+            color: {{ style.text_color }};
+            font-size: {{ style.font_size }}px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            width: 80%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        label {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        hr {
+            width: 90%;
+            margin: 30px auto;
+        }
+        a {
+            font-size: 1.2em;
+            color: #007BFF;
+            text-decoration: none;
+            display: block;
+            margin-top: 20px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                font-size: 16px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            label {
+                font-size: 1.1em;
+            }
+            input {
+                font-size: 1em;
+                padding: 8px;
+            }
+            button {
+                font-size: 1.1em;
+                padding: 12px 18px;
+            }
+            a {
+                font-size: 1.1em;
+            }
+        }
+    </style>
 </head>
-<body style="background-color: {{ style.bg_color }}; color: {{ style.text_color }}; font-size: {{ style.font_size }}px;">
+<body>
 
     <h1>Settings</h1>
     <form action="{{ url_for('settings') }}" method="POST">
         
         <label for="bg_color">Background Color:</label>
         <input type="color" id="bg_color" name="bg_color" value="{{ style.bg_color }}">
-        <br><br>
 
         <label for="text_color">Text Color:</label>
         <input type="color" id="text_color" name="text_color" value="{{ style.text_color }}">
-        <br><br>
 
         <label for="font_size">Font Size:</label>
-        <input type="number" id="font_size" name="font_size" value="{{ style.font_size }}">
-        <br><br>
+        <input type="number" id="font_size" name="font_size" value="{{ style.font_size }}" min="10" max="40">
 
         <button type="submit">Save Settings</button>
     </form>
