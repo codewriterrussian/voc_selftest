@@ -6,6 +6,7 @@ import webbrowser
 import requests
 
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask_session import Session  # Import Flask-Session for server-side sessions
 
 # -----------------------------------------------------------------------------
 # Global Constants
@@ -20,6 +21,9 @@ JSONBIN_URL = f"https://api.jsonbin.io/v3/b/{BIN_ID}"
 app = Flask(__name__)
 app.secret_key = "some_secret_key_for_session"  # Needed for sessions in Flask
 
+# Configure server-side sessions
+app.config["SESSION_TYPE"] = "filesystem"  # Options include 'filesystem', 'redis', etc.
+Session(app)
 
 # -----------------------------------------------------------------------------
 # Helper Functions
@@ -52,7 +56,7 @@ def write_json_to_bin(data_dict):
 data = fetch_json_from_bin()
 categories = data.get("categories", {})
 
-# Default style
+# Default style settings
 DEFAULT_STYLE = {
     "bg_color": "#555555",
     "text_color": "#ffffff",
@@ -95,6 +99,7 @@ def start_quiz():
     questions = categories.get(category_name, [])
     random.shuffle(questions)
 
+    # Save only the necessary quiz info in the session.
     session["quiz"] = {
         "category": category_name,
         "questions": questions,
@@ -167,7 +172,7 @@ def delete_question():
         questions.pop(idx)
 
     data["categories"][quiz_data["category"]] = questions
-    write_json_to_bin(data)  # Update JSONBin.io
+    write_json_to_bin(data)  # Update JSONBin.io with the new data
 
     save_current_quiz(quiz_data)
     return redirect(url_for("quiz"))
@@ -205,4 +210,6 @@ def open_browser():
     webbrowser.open("http://127.0.0.1:5000/")
 
 if __name__ == "__main__":
+    # Optionally, open the browser automatically (uncomment next line if desired)
+    # open_browser()
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
