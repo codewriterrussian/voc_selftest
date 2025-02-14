@@ -35,7 +35,9 @@ def fetch_json_from_bin():
     print("Status Code:", response.status_code)
     print("Response Text:", response.text)
     if response.status_code == 200:
-        return response.json().get("record", {"categories": {}})
+        json_data = response.json()
+        print("Parsed JSON:", json_data)
+        return json_data.get("record", {"categories": {}})
     else:
         print(f"Error fetching JSON: {response.text}")
         return {"categories": {}}
