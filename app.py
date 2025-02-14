@@ -30,10 +30,10 @@ def sanitize_text(text):
     return re.sub(r"[\*\_#`]", "", text)  # ADDED FOR SANITIZING
 
 def fetch_json_from_bin():
-    """Fetch JSON data from JSONBin.io."""
     headers = {"X-Master-Key": JSONBIN_API_KEY}
     response = requests.get(JSONBIN_URL, headers=headers)
-
+    print("Status Code:", response.status_code)
+    print("Response Text:", response.text)
     if response.status_code == 200:
         return response.json().get("record", {"categories": {}})
     else:
