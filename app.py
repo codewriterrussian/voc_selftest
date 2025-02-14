@@ -4,6 +4,7 @@ import json
 import random
 import webbrowser
 import requests
+import re  # <-- ADDED FOR SANITIZING
 
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 
@@ -20,10 +21,14 @@ JSONBIN_URL = f"https://api.jsonbin.io/v3/b/{BIN_ID}"
 app = Flask(__name__)
 app.secret_key = "some_secret_key_for_session"  # Needed for sessions in Flask
 
-
 # -----------------------------------------------------------------------------
 # Helper Functions
 # -----------------------------------------------------------------------------
+
+def sanitize_text(text):
+    """Remove common markdown symbols (*, _, #, `) from text."""
+    return re.sub(r"[\*\_#`]", "", text)  # ADDED FOR SANITIZING
+
 def fetch_json_from_bin():
     """Fetch JSON data from JSONBin.io."""
     headers = {"X-Master-Key": JSONBIN_API_KEY}
@@ -58,7 +63,6 @@ DEFAULT_STYLE = {
     "text_color": "#ffffff",
     "font_size": 18
 }
-
 
 def get_style():
     """Returns the user-selected style or the default style."""
@@ -115,18 +119,26 @@ def quiz():
     current_index = quiz_data["current_index"]
     style = get_style()
 
+    # If we've answered all questions, go to finished page
     if current_index >= len(questions):
         return render_template("finished.html", style=style)
 
+    # Get the current question data
     current_q = questions[current_index]
-    question_text = current_q.get("question", "")
-    options_dict = current_q.get("options", {})
+
+    # ADDED/CHANGED FOR SANITIZING
+    question_text = sanitize_text(current_q.get("question", ""))
+    raw_options = current_q.get("options", {})
+    # Make a sanitized copy of the options dict
+    options_dict = {k: sanitize_text(v) for k, v in raw_options.items()}
     correct_answer = current_q.get("correct_answer", "").strip()
-    explanation = current_q.get("explanation", "")
+    explanation = sanitize_text(current_q.get("explanation", ""))
 
     if request.method == "POST":
+        # The user just submitted an answer
         selected_letter = request.form.get("selected_letter", "").strip()
-        is_correct = (selected_letter == correct_answer)
+        # is_correct = (selected_letter == correct_answer)
+        # We don't need is_correct here, but we might in future logic.
 
         return render_template(
             "quiz_answer.html",
@@ -138,7 +150,13 @@ def quiz():
             style=style
         )
 
-    return render_template("quiz.html", question=question_text, options=options_dict, style=style)
+    # GET request -> Show the question form
+    return render_template(
+        "quiz.html",
+        question=question_text,
+        options=options_dict,
+        style=style
+    )
 
 
 @app.route("/next_question", methods=["POST"])
@@ -166,6 +184,7 @@ def delete_question():
     if 0 <= idx < len(questions):
         questions.pop(idx)
 
+    # Reflect that deletion in main data structure
     data["categories"][quiz_data["category"]] = questions
     write_json_to_bin(data)  # Update JSONBin.io
 
